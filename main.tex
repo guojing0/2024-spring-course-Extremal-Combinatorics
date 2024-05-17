@@ -57,6 +57,7 @@
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
+\newcommand{\VC}{\mathrm{VC}}
 
 \renewcommand{\epsilon}{\varepsilon}
 \renewcommand{\phi}{\varphi}
@@ -2984,11 +2985,238 @@ $\forall \mathcal{F}$ with maximal intersecting are able to map generating set $
 \newpage
 \section{Lecture 20}
 
+\subsection{Three proofs of Sauer-Shelah lemma}
+\begin{definition}[VC dimension]
+    Let $\mathcal{F} \subseteq 2^X$ be a set system on the ground set $X$. For $S \subseteq X$, the \emph{trace} of $\mathcal{F}$ on $S$ is $\mathcal{F}|_{S} := \{ F \cap S: F \in \mathcal{F} \}$. A set $S$ is \emph{shattered} by $\mathcal{F}$ if $\mathcal{F}|_{S} = 2^S$. In other words, for any $S' \subseteq S$, there exists $F \in \mathcal{F}$ s.t. $F\cap S = S'$. The \emph{VC dimension} of $\mathcal{F}$ is the size of the largest set $S \subseteq X$ shattered by $\mathcal{F}$.
+\end{definition}
 
+\begin{example}
+Let $X$ be $\mathbb{R}^1$, and $\mathcal{F}$ be all closed intervals in $\mathbb{R}$.
+\end{example}
+\begin{claim}
+    The VC dimension of $\mathcal{F}$ is 2. 
+\end{claim}
+\begin{proof}
+    For the lower bound, we need to find a shattered 2-set. Indeed, take any 2 points in $\mathbb{R}$ such as $\{5,14\}$, it is easy to find four closed intervals which intersect $\{5,14\}$ with $\{\varnothing\},\{5\},\{14\},\{5,14\}$ respectively. For the upper bound, we need to show that for every 3-set $S$, it can not be shattered by $\mathcal{F}$, that is, there exists some $S'\subseteq S$ such that there is no $F \in \mathcal{F}$ satisfies $F\cap S=S'$. For example, let $S=\{5,14,2024\}$, we have $S'=\{5,2024\}$.
+\end{proof}
+But closed convex sets in higher dimension, already in $\mathbb{R}^2$, have infinite VC dimension.
+
+\begin{example}
+Let $X$ be $\mathbb{R}^2$, and $\mathcal{F}$ be all convex sets in $\mathbb{R}^2$.
+\end{example}
+\begin{claim}
+    The VC dimension of $\mathcal{F}$ is infinite. That is, for every $n\in \mathbb{N}$, we can find an $n$-point set shattered by $\mathcal{F}$.
+\end{claim}
+Indeed, consider $n$ points lie on a cycle, for any subset $S'$ of this $n$-point set $S$, there exists a convex set intersecting $S$ with $S'$, see the following picture. 
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.2]{20-1.jpg}
+        \label{fig:20-1}
+\end{figure}
+
+\begin{example}
+Consider half spaces in $\mathbb{R}^2$, that is, $X=\mathbb{R}^2$, $\mathcal{F}=$ all half spaces. Then the VC domension of $\mathcal{F}$ equals to 3.  
+\end{example}
+Indeed, it is at least 3 as illustrated in Figure \ref{fig:20-2}(a). It is less than 4: if the 4 points are in convex position, then the two sets of diagonal pairs cannot be separated; while if one point is in the convex hull of the others, then that point cannot be separated from the rest, see Figure \ref{fig:20-2}(b).
+\begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.3]{20-2.jpg}
+        \caption{$X=\mathbb{R}^2$, $\mathcal{F}=$ all half spaces}
+        \label{fig:20-2}
+\end{figure}
+
+
+ \begin{exercise}
+    Let $X=\mathbb{R}^2$, $\mathcal{F}=$ all axis-aligned rectangles. Prove that the VC domension of $\mathcal{F}$ equals to 4.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.5]{15-2.png}
+    \end{figure}
+\end{exercise}
+
+\begin{example}
+    Given ground set $V = [n]$, let $\mathcal{F} = \binom{[n]}{n/2}$. We claim that any $\frac{n}{2}$-set in $[n]$ is shattered by $\mathcal{F}$. Then the VC-dimension of this set system is $\frac{n}{2}$.
+\end{example}
+
+
+\begin{lemma} [Sauer-Shelah~\cite{sauer1972density,shelah1972combinatorial}]\label{F}
+    Let $\mathcal{F}\subseteq 2^{[n]}$ with VC dimension $d$, then $|\mathcal{F}|\leq \binom{n}{0}+\binom{n}{1}+\cdots+\binom{n}{d}$.
+\end{lemma}
+
+\begin{remark}
+The bound is optimal.
+\end{remark}
+
+\begin{remark}
+The Sauer-Shelah lemma in fact is slightly stronger: it bounds size of traces of $\mathcal{F}$ on any set. That is, for any $\mathcal{F}\subseteq 2^{[n]}$ with VC dimension $d$ and any $S\subseteq X$ of size $m$, then we have $|\mathcal{F}|_{S}|\leq \binom{m}{0}+\binom{m}{1}+\cdots+\binom{m}{d}$. We get this version from Sauer-Shelah lemma for free as the VC dimension of $\mathcal{F}|_{S}$ is no more than that of $\mathcal{F}$.
+\end{remark}
+
+
+\begin{proof}[Proof of Lemma~\ref{F}]
+    By induction on $d$ and $n$, the base case for $d$ is easy. We fix $d$ first, the base case $n=d$ is trivial. We restrict $\mathcal{F}$ to $[n-1]$, let $\mathcal{F}_{1}=\mathcal{F}|_{[n-1]}=\{ F\backslash \{ n \} :F\in \mathcal{F} \}$. Note that $\mathcal{F}_{1}$ might not be $\mathcal{F}$. Let $\mathcal{F}_{2}=\{ F\in \mathcal{F}: n\notin F, F\cup\{ n \} \in \mathcal{F} \}$. Then $|\mathcal{F}|=|\mathcal{F}_{1}|+|\mathcal{F}_{2}|$. We claim that $\VC(\mathcal{F}_{2})\leq d-1$. In fact, if $A\subseteq [n-1]$ shattered by $\mathcal{F}_{2}$, then $A\cup \{ n \}$ shattered by $\mathcal{F}$. By induction on $n$, we have
+    \begin{equation*}
+    \left\{
+    \begin{aligned}
+         \ |\mathcal{F}_{1}|\leq \binom{n-1}{0}+\binom{n-1}{1}+\cdots+\binom{n-1}{d}, &  \\
+         \ |\mathcal{F}_{2}|\leq \binom{n-1}{0}+\binom{n-1}{1}+\cdots+\binom{n-1}{d-1}. & 
+    \end{aligned}
+    \right.
+    \end{equation*}
+    So we have
+    $$|\mathcal{F}|=|\mathcal{F}_{1}|+|\mathcal{F}_{2}|\leq \binom{n}{0}+\binom{n}{1}+\cdots+\binom{n}{d}.$$
+\end{proof}
+
+\subsection{Dimension argument \& families with restricted intersections}
+
+Dimension argument is often useful when the extremal problem has many distinct extremal structures. Our goal is to find an upper bound of the size of $\mathcal{F}$. The idea is the following. Map objects in $\mathcal{F}$ injectively into a vector space such that the images are linearly independent, then the size of $\mathcal{F}$is at most the dimension of the vector space. We have seen it already in odd/even town problem.
+
+\begin{definition}
+    A \emph{projective plane} consists of a set of lines and a set of points and there is a relation between line and point: incidence.
+    \begin{itemize}
+    \item For every 2 points, there is exactly one line incident with both of them.
+    \item For every two lines, there is exactly one point incident with both of them.
+    \item There exists 4 points in 'general position', that is, every line is incident to at most two of these points.
+\end{itemize}
+\end{definition}
+
+\begin{example}
+Fano plane: 7 points and 7 lines.
+ \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.2]{20-4.png}
+    \end{figure}
+\end{example}
+
+\begin{theorem}[De Bruijn-\Erdos{}~\cite{bruijn1951colour}]
+    Let $P$ be a set of $n$ points in a projective plane, not all on a line, then the number of lines determined by $P$ is at least $n$.
+\end{theorem}
+
+ If the equality holds, then either $P$ is a projective plane or a graph like the following.
+
+     \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.3]{20-3.jpg}
+    \end{figure}
 
 \newpage
 \section{Lecture 21}
 
+\begin{theorem}[De Bruijn-\Erdos{}~\cite{bruijn1951colour}]
+    Let $P$ be a set of $n$ points in a projective plane, not all on a line, then the number of lines determined by $P$ is at least $n$.
+\end{theorem}
+
+\begin{remark}[Duality]
+    The statement is also true when we swap lines and points.
+\end{remark}
+
+We prove this theorem by proving a combinatoric statement about family sets with restricted intersection.
+
+\begin{theorem}\label{De bruijn-erdos}
+    Let $\mathcal{F}\subseteq 2^{[n]}$. If for any $F,F' \in \mathcal{F}$ with $F\neq F'$, $|F\cap F'|=1$, then $|\mathcal{F}|\leq n$.
+\end{theorem}
+
+This implies the dual statement of de Bruijn-\Erdos{}. We may assume each point in $[n]$ is in at least $2$ sets in $\mathcal{F}$. Now $\mathcal{F}$ is the set of lines $L$ and ground set $[n]$ is the points determined by $\mathcal{F}=L$.
+
+\begin{proof}[Proof of Theorem~\ref{de bruijn-erdos}]
+    Consider the incidence matrix of $\mathcal{F}$, denoted as $M$. The colunms are $[n]$ and the rows are $\{ F_{1},\ldots,F_{m} \}=\mathcal{F}$. The $(i,j)$-entry is $1$ if $j\in F_{j}$, otherwise the $(i,j)$-entry is $0$. So each set in $\mathcal{F}$ corresponds to a vector in $\{ 0,1 \}^{n}$. Note that if $\{ \boldsymbol{f}_{i}\coloneqq\mathbf{1}_{F_{i}} \}_{i=1}^{m}$ are linearly independent, then $|\mathcal{F}|\leq \dim M =n$. So we can consider the form $\sum_{i=1}^{m} \alpha_{i}\boldsymbol{f}_{i}\coloneqq \boldsymbol{x}$.
+
+    $$\langle \boldsymbol{x},\boldsymbol{x} \rangle = \Big\langle \sum_{i=1}^{m} \alpha_{i}\boldsymbol{f}_{i},\sum_{i=1}^{m} \alpha_{i}\boldsymbol{f}_{i} \Big\rangle = \sum_{i,j}\alpha_{i}\alpha_{j}\langle \boldsymbol{f}_{i},\boldsymbol{f}_{j} \rangle,$$
+    where
+    $$\langle \boldsymbol{f}_{i},\boldsymbol{f}_{j} \rangle = \left\{
+    	\begin{aligned}
+    	&|F_{i}| \quad &i=j\\
+    	&1 \quad &i\neq j\\
+    	\end{aligned}
+    	\right
+    	..
+    $$
+    Then
+    $$\langle \boldsymbol{x},\boldsymbol{x} \rangle = \sum_{i=1}^{m}\alpha_{i}^{2}|F_{i}|+\sum_{i\neq j}\alpha_{i}\alpha_{j}=\sum_{i=1}^{m}\alpha_{i}^{2}(|F_{i}|-1)+(\sum_{i=1}^{m}\alpha_{i})^{2}.$$
+    
+    Assume that each $|F_{i}|\geq 2$, then $\langle \boldsymbol{x},\boldsymbol{x} \rangle=0$ if and only if $\alpha_{i}=0$ for every $i\in [m]$, which means $\{ \boldsymbol{f}_{i} \}_{i=1}^{m}$ are linearly independent.
+
+    Without loss of generality, we can assume that $F_{1}=\{ 1 \}$. Then $|F_{1}\cap F_{i}|=1$ indicates that $1\in F_{i}$ for all $i=1,\ldots,m$. Since $|F_{i}\cap F_{j}|=1$, then $\{ F_{i}\backslash\{ 1 \} \}_{i=1}^{m}$ are pairwise disjoint, which means $|\mathcal{F}|\leq n$.
+\end{proof}
+
+\begin{remark}
+    The bound of Theorem~\ref{de bruijn-erdos} is tight: we can choose $\{ 1 \},\{ 1,2 \},\{ 1,3 \},\ldots,\{ 1,n \}$ or $\{ 2,3,\ldots,n \},\{ 1,2 \},\{ 1,3 \},\ldots,\{ 1,n \}$.
+\end{remark}
+
+\subsection{Sets with at most two distinct distances}
+
+Let $P$ be a set of points in $\mathbf{R}^{n}$ with pairwise distance one, then $|P|\leq n+1$ and we can take regular simplex to match the bound. The question in this part is: what is the maximum size of $|P|$ if we allow two distinct distances?
+
+In $\mathbf{R}^{n}$, we can take $P=\{ e_{i}+e_{j} \}_{i,j\in \binom{[n]}{2}}$, then $|P|=\binom{n}{2}$. This is a lower bound, which is close to the best upper bound $\binom{n+2}{2}$ proved by Blokhuis~\cite{blokhuis1981new}. In this part, we will prove a slightly weaker bound.
+
+\begin{theorem}
+    Let $X\subseteq \mathbf{R}^{n}$ with at most two distinct distances between pairs of its points, then $|X|\leq \frac{1}{2}(n+4)(n+1)$.
+\end{theorem}
+
+\begin{proof}
+    Let $X=\{ \boldsymbol{v}_{1},\ldots,\boldsymbol{v}_{t} \}$ and $d,D$ be the two distinct distances. Let $\boldsymbol{x}\in \mathbf{R}^{n}$, Associate to each point $\boldsymbol{v}_{i}\in X$ the following $n$-variate deg-$4$ polynomial $P_{i}$:
+    $$P_{i}(\boldsymbol{x})=(\Vert \boldsymbol{x}-\boldsymbol{v}_{i} \Vert^{2}-d^{2})(\Vert \boldsymbol{x}-\boldsymbol{v}_{i} \Vert^{2}-D^{2}),$$
+    where $\Vert \cdot \Vert$ is $l_{2}$-norm.
+
+    \begin{claim}\label{pi linearly independent}
+        $\{ P_{i} \}_{i\in [t]}$ are linearly independent.
+    \end{claim}
+    \begin{proof}[Proof of Claim~\ref{pi linearly independent}]
+        Note that
+        $$P_{i}(\boldsymbol{v}_{j})=\left\{
+    	\begin{aligned}
+    	&d^{2}D^{2} \quad &i=j\\
+    	&0 \quad &i\neq j\\
+    	\end{aligned}
+    	\right
+    	.
+        $$
+
+        If $\sum_{i\in [t]}\alpha_{i}P_{i}=0$, then for any $j\in [t]$, we have
+        $$0=\sum_{i\in [t]}\alpha_{i}P_{i}(\boldsymbol{v}_{j})=\alpha_{j}d^{2}D^{2},$$
+        which indicates $\alpha_{j}=0$ for all $j\in [t]$.
+    \end{proof}
+
+    Since each $P_{i}$ is polynomial with degree $4$, we get $|X|=O(n^{4})$. This bound is far from what we want, so we need to find a more economic set of vectors spanning $P_{i}$'s.
+
+    Note that
+    $$\Vert \boldsymbol{x}-\boldsymbol{v}_{i} \Vert^{2}=\sum_{j\in [n]} x_{j}^{2}-2\sum_{j\in[n]}x_{j}v_{ij}+\sum_{j\in [n]}v_{ij}^{2}.$$
+
+    This implies $P_{i}$ is a linear combination of the following polynomials:
+    
+    \begin{itemize}
+        \item $(\sum_{j\in [n]} x_{j}^{2})^{2}$,
+        \item $x_{k}\sum_{j\in [n]}x_{j}^{2}$, for $k\in [n]$,
+        \item $x_{j}x_{k}$, for $1\leq j\leq k\leq n$,
+        \item $x_{j}$, for $j\in [n]$,
+        \item $1$.
+    \end{itemize}
+
+    So the dimension of the space containing all $\{ P_{i} \}_{i\in [n]}$ is at most $\frac{1}{2}(n+4)(n+1)$.
+\end{proof}
+
+\subsection{Forbidding a single intersection size}
+
+Blabla...
+
+\begin{theorem}[Frank-Wilson~\cite{frankl1981intersection}]\label{frank wilson}
+    Let $p$ be an odd prime and $\mathcal{F}\subseteq 2^{[n]}$. If
+    
+    \begin{itemize}
+        \item for any $F\in \mathcal{F}$, $|F|\equiv 0\ (mod\ p)$,
+        \item for any $F,F'\in \mathcal{F}$ with $F\neq F'$, $|F\cap F'|\not\equiv 0\ (mod\ p)$.
+    \end{itemize}
+    
+    Then $|\mathcal{F}|\leq \binom{n}{0}+\binom{n}{1}+\cdots+\binom{n}{p-1}$.
+\end{theorem}
+
+\begin{remark}
+    Blabla...
+\end{remark}
+
+\begin{proof}[Proof of Theorem~\ref{frank wilson}]
+    Blabla...
+\end{proof}
 
 
 \newpage
