@@ -2974,11 +2974,247 @@ $\forall \mathcal{F}$ with maximal intersecting are able to map generating set $
 
 \newpage
 \section{Lecture 18}
+\subsection{The proof of \cref{maxIntersecting}}
+In this section, we give the proof of \cref{maxIntersecting}. Recall that the theorem is as follows.
+\begin{theorem}[J\'ozsef Balogh, Shagnik Das et al.\cite{balogh2015intersecting} 2014]\label{mttt}
+
+Let $M_k$ be the number of maximal intersecting $k$-uniform family on $n$, then 
+$$M_k\le \underset{i=0}{\overset{\binom{2k}{k}}{\sum}}{\binom{\binom{n}{k}}{i}}\le \binom{n}{k^{\binom{2k}{k}}}$$
+\end{theorem}
+
+To prove \Cref{mttt}, we first prove the following lemma.
+\begin{lemma}\label{imttt}
+    Given a maximal intersecting family $\mathcal{F}\subseteq \binom{[n]}{k}$, then there exist a generating set $\mathcal{G}\subseteq \mathcal{F}$ such that $\mathcal{I}(\mathcal{G})=\mathcal{F}$ and $|\mathcal{G}|\leq \binom{2k}{k}$.
+\end{lemma}
+\begin{proof}
+   Initially, by exercise \ref{exer}, we have $\mathcal{F} =\mathcal{I}(\mathcal{F})$.
+    delete sets one by one from $\mathcal{F}_0=\mathcal{F}$. Therefore, $\mathcal{F}= \mathcal{F}_0\supseteq\mathcal{F}_1\supseteq\mathcal{F}_2\supseteq...$. And according to the observation, we have $\mathcal{F}=\mathcal{I}(\mathcal{F}_0)\subseteq\mathcal{I}(\mathcal{F}_1)\subseteq\mathcal{I}(\mathcal{F}_2)\subseteq ...$.\par 
+    Thus, there exists a generating set $\mathcal{G}$ of $\mathcal{F}$.\par
+    Next we prove that $\mathcal{G}$ is what we want.\par
+    By construction, $\mathcal{G}$ is a generating set for $\mathcal{F}$. We only need to show that $|\mathcal{G}|\leq \binom{2k}{k}$.
+    Let $\mathcal{G}=\{F_1,F_2,\cdots,F_r\}$. By the minimality of $\mathcal{G}$, for any $i\in [r]$ we have $\mathcal{I}(\mathcal{G}\backslash \{F_i\})\subseteq \mathcal{I}(\mathcal{G})=\mathcal{F}$. Then there is a $k$-set $G_i\in \mathcal{I}(\mathcal{G}\backslash \{F_i\})\backslash\mathcal{F}$. By the definition of $\mathcal{I}(\mathcal{F})$, $G_i\cap F_j \neq \empty$ for any $F_i\in \mathcal{G}\backslash \{F_i\}$ for $j\neq i$. On the other hand, we must have $G\cap F_i=\empty$. Otherwise, $G_i$ intersects all sets in $\mathcal{G}$ then $G_i\in \mathcal{I}(\mathcal{G})=\mathcal{F}$, a contradiction. \par
+    Then by Bollob\'as set-pair inequality, $|\mathcal{G}|=r\leq \binom{2k}{k}$.
+\end{proof}
+Now we give the proof of \Cref{mttt} by \Cref{imttt}.
+\begin{proof}
+    Notice that the map mapping a maximal intersecting $k$-family to a generating subfamily of size at most $\binom{2k}{k}$ is injective. Then  the number of maximal intersecting $k$-uniform family on $n$ is less than  the number of $k$-uniform family with size at most $\binom{2k}{k}$ on $n$. Then the following holds.
+    $$M_k\le \underset{i=0}{\overset{\binom{2k}{k}}{\sum}}{\binom{\binom{n}{k}}{i}}\le \binom{n}{k^{\binom{2k}{k}}}.$$
+\end{proof}
+In kneser graph, the $(F_i,G_i)_{i\in[r]}$ set-pairs corresponds to two sets of vertices $\mathcal{G}$ and $\mathcal{G}'$ such that between $\mathcal{G} \& \mathcal{G}'$ we have an induced matching. Denoted bipartite induced matching number of a graph $G$ by $v_{b_i}(G)$ which is the maximum number $r$ such that there is an $r$-matching $u_iv_i$ where $i\in [r]$ such that $u_i$ and $v_j$ are disjoint for any $i\neq j$. After rephrasing \cref{imttt} in Kneser graph, we have $v_{b_i}(KG(n,k))\leq \binom{2k}{k}$ which means Kneser graph has small bipartite induced matching number.
+
+
+
+\subsection{Kruskal-Katona}
+In this section, we introduce the Kruskal-Katona theorem and give the idea to prove it.
+Firstly consider the following problem.
+\begin{question}
+    Given an $n$-vertex and $m$-edge graph , how many triangles it must contain? 
+\end{question}
+
+\Erdos{}-Radamacher posed the clique minimization problem in 1940s. This problem is very difficult. Some people gave the asymptotic solution for this problem. Razborov consider the problem for triangle. Nikiforov consider the problem for triangle and $K_4$. And Reiher gave the asymptotic solution for all cliques. Some people gave the exact solution for this problems. Liu-Pikhurko-staden gave the exact solution for triangles.
+
+So a natural question is given the number of vertex and the number of edge, how many triangles it can contain? The answer is provided by Kruskal-Katona.
+
+\begin{definition}
+    The \textbf{shadow} of a $k$-graph $\mathcal{F}\subseteq \binom{[n]}{k}$, denoted by $\partial(\mathcal{F}) \subseteq \binom{[n]}{k}$, is the $(k-1)$-graph consisting pf all $(k-1)$-sets that lie in an edge of $\mathcal{F}$. Actually, 
+    $$\partial (\mathcal{F})=\{F\in \binom{[n]}{k-1}:F\subseteq G \text{~for some~} G\in \mathcal{F}\}.$$
+\end{definition}
+\begin{example}
+    Let $G$ be a $5$-vertices $2$-graph in \Cref{fig:18-1}. Then $\partial (\mathcal{G})=V(G)$.
+\end{example}
+
+\begin{example}
+    Let $F$ be a $3$-graph in \Cref{fig:18-1}. Then $\partial (\mathcal{F})$ is a $2$-graph with the blue edges.
+\end{example}
+
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.3]{18-1.png}
+        \caption{Examples}
+        \label{fig:18-1}
+\end{figure}
+
+
+
+\begin{problem}\label{18-p}
+    Let $n\geq k$ and $0\leq m\leq \binom{n}{k}$, what is the minimum shadow size of an $n$-vertex  $k$-graph with $m$ edges?
+\end{problem}
+In the following, there are some examples giving different setting in \cref{18-p}. 
+\begin{example}
+    Let $G$ be an $n$-vertex graph with $m$ edges and no isolated vertex. The $\partial (\mathcal{G})$ is the vertex set. Then the minimal $n$ is the value $r$ satisfying $\binom{r-1}{2}<m\leq \binom{r}{2}$. 
+\end{example}
+\begin{example}
+    Let $H$ be an $n$-vertex $3$-graph with $4$ edges. Then the minimum shadow size of $H$ is $6$ if and only if $H$ is a tetrahedron.
+\end{example}
+
+\begin{example} \label{18-e}
+    Let $H$ be an $n$-vertex $3$-graph with $7$ edges. Then the minimum shadow size of $H$ is $9$ if and only the edge set of $H$ is $\{123,124,234,134,125,235,135\}$.
+\end{example}
+All these examples have the same idea that we should pack (hyper)edges as compact as possible. And in \Cref{18-e}, the the ordering of the edge set is a colexicographic order which we give the definition as follows. 
+\begin{definition}[Colex order]
+Let $A=\{a_1,a_2,\cdots,a_k\}$ and $B=\{b_1,b_2,\cdots,b_k\}$ be two $k$-subsets of $\mathrm{N}$ with $a_1<a_2<\cdots<a_k$ and $b_1<b_2<\cdots<b_k$. We say $A<_{colex}B$ if $a_j<b_j$ where $j=\max \{i:a_i\neq b_i\}$. In other words, comparing them `form right to left', look at the largest position where they differ, the larger one on that position is larger in colex.
+\end{definition}
+\begin{example}
+    Initial segments of colex for $k=2$ is binary string.\\
+   $\{1,2\}\cdots (1,1,0,0,0)$;
+  $\{1,3\}\cdots (1,0,1,0,0)$;
+    $\{2,3\}\cdots (0,1,1,0,0)$;\\
+     $\{1,4\}\cdots (1,0,0,1,0)$;
+     $\{2,4\}\cdots (0,1,0,1,0)$;
+     $\{3,4\}\cdots (0,0,1,1,0)$;\\
+     $\{1,5\}\cdots (1,0,0,0,1)$;
+     $\{2,5\}\cdots (0,1,0,0,1)$;
+     $\{3,5\}\cdots (0,0,1,0,1)$;\\
+     $\{4,5\}\cdots (0,0,0,1,1)$;
+\end{example}
+
+\begin{theorem}[Kruskal-Katona] \label{KK}
+    Let $\mathcal{F}$ be a $k$-graph with 
+    \begin{equation}\label{eeee}
+        m=\binom{n_k}{k}+\binom{n_{k-1}}{k-1}+\cdots+\binom{n_s}{s} 
+    \end{equation}
+    where $n_k>n_{k-1}>\cdots>n_s\geq s \geq 1.$
+    Then the following holds,
+    $$|\partial(\mathcal{F})|\geq \binom{n_k}{k-1}+\binom{n_{k-1}}{k-2}+\cdots+\binom{n_s}{s-1}.$$
+\end{theorem}
+\begin{exercise}
+    $\forall m\geq k $ and natural $s$, there exist an unique way to write $m$ as in \cref{eeee}.
+    \begin{remark}
+        The bound in \Cref{KK} is optimal as the equality holds for initial segments in colex order.
+    \end{remark}
+\end{exercise}
+The idea of the proof of \Cref{KK} is using shifting operation which doesn't change the size of $\mathcal{F}$ and doesn't increased the size of $\partial(\mathcal{F})$. Then induction on the uniformity and the size of the family.
+
+
 
 
 
 \newpage
 \section{Lecture 19}
+\subsection{The proof of Theorem \ref{KK}.} 
+Now we are going to give the proof of Theorem \ref{KK}. Let us first recall Kruskal-Katona theorem. 
+
+\begin{theorem}[Kruskal-Katona]\label{KK1}
+For any integers $n_k>n_{k-1}>\cdots>n_s\geq s \geq 1$ and  $m=\binom{n_k}{k}+\binom{n_{k-1}}{k-1}+\cdots+\binom{n_s}{s}$. Let $\mathcal{F}$ be a $k$ set family with  $|\mathcal{F}|=m$. Then 
+    $$|\partial(\mathcal{F})|\geq \binom{n_k}{k-1}+\binom{n_{k-1}}{k-2}+\cdots+\binom{n_s}{s-1}.$$
+\end{theorem}
+
+\noindent \emph{Idea:} Using shifting to get a new family with some structure, and then induction on the uniformity and the size of the family.\\
+
+Let us now introduce shifting operation. 
+
+\textbf{Shifting operation:} For $2\leq i\leq n$ and $F\in \mathcal{F}$, define
+$$S_i(F)=\left\{
+    	\begin{aligned}
+    	&F\backslash\{i\}\cup \{1\} \quad &if\ i\in F, 1\notin F\ and\ F\backslash \{i\}\cup \{1\}\notin \mathcal{F},\\
+    	&F \quad &otherwise.\\
+    	\end{aligned}
+    	\right.
+        $$
+Write $S_i(\mathcal{F})=\{S_i(F):F\in \mathcal{F}\}$. We call $\mathcal{F}$ \emph{compressed} if $S_i(\mathcal{F})= \mathcal{F}$ for all $2\leq i\leq n$. 
+
+
+\begin{exercise}
+    Prove that it is a finite process to shift any family $\mathcal{F}$ to a compressed one. 
+\end{exercise}
+
+
+\begin{example}
+Let $\mathcal{F}=\{134,135,234,245\}$. Then $S_5(\mathcal{F})=\{134,135,234,124\}$.  
+\end{example}
+
+\begin{remark}
+    Initial segments of colex order are compressed. But not every compressed family is initial segments of colex. For example, take $k=2$ and $\mathcal{F}=\{13,15,17,19\}$. It is easy to check that  $\mathcal{F}$ is compressed.
+ \end{remark}
+
+ We will leave the following proposition as exercises. 
+\begin{proposition}\label{19.5}
+ For any   $\mathcal{F}\subseteq \binom{[n]}{k}$  and $2\leq i\leq n$, map $\mathcal{F}\rightarrow S_i(\mathcal{F})$ is injective. In particular, $|\mathcal{F}|=|S_i(\mathcal{F})|$. 
+\end{proposition}
+
+ The following proposition states that shifting does not increase the size of shadow. The last equality can be obtained by Proposition \ref{19.5}. 
+ \begin{proposition}
+ For any   $\mathcal{F}\subseteq \binom{[n]}{k}$  and $2\leq i\leq n$, we have $\partial(S_i(\mathcal{F}))\subseteq S_i(\partial\mathcal{F})$. In particular, $|\partial(S_i(\mathcal{F}))|\leq  |S_i(\partial\mathcal{F})|=|\partial\mathcal{F}|$. 
+\end{proposition}
+
+The following proposition will be used in induction. But we first give some notation. Given  $\mathcal{F}\subseteq \binom{[n]}{k}$,  define $\mathcal{F}=\mathcal{F}_1\cup \mathcal{F}_1^c$ where $\mathcal{F}_1=\{F\in \mathcal{F}: 1\in F\}$ and $\mathcal{F}_1^c=\{F\in \mathcal{F}: 1\notin F\}$. Note that $\mathcal{F}_1^c$ is on ground set $[n]\backslash \{1\}$ good for induction, and we remove 1 form all sets in $\mathcal{F}_1$ to form $(k-1)$-uniform.  We use $\mathcal{L}_1=\{F\backslash \{1\}: F\in \mathcal{F}_1\}$ to denote the link element 1 in family $\mathcal{F}$. 
+
+\begin{proposition}\label{19.7}
+    If $\mathcal{F}$ is compressed, then \\
+    (i) $\partial\mathcal{F}_1^c\subseteq \mathcal{L}_1$, and \\
+    (ii) $\partial\mathcal{F}=\mathcal{L}_1\cup \{E\cup \{1\}: E\in \partial\mathcal{L}_1\}$ and so $|\partial\mathcal{F}|=|\mathcal{L}_1|+|\partial\mathcal{L}_1|$.
+\end{proposition}
+\vskip 0.2em
+
+\begin{proof} [Proof of Theorem \ref{KK1}(Kruskal-Katona)] We will use double induction to prove Kruskal-Katona Theorem. First we induction on uniformity on $k$, then on the size of the family $m$. 
+
+For $k=1$, this case is trivial as the shadow of any 1-uniform family is $\{\emptyset\}$. Assume $k\geq 2$ and induct on $m=|\mathcal{F}|$.  
+
+For $m=1=\binom{k}{k}$, $\mathcal{F}$ has one set. Then $|\partial\mathcal{F}|=\binom{k}{k-1}$. Suppose $m\geq 2$, and we may assume that $\mathcal{F}$ is compressed for otheriwse we can keep shifting the family while keeping its cardinality and not increasing its shadow size. To finish the proof, we need the following claim. 
+    \begin{claim}\label{L1}
+        $|\mathcal{L}_1|\geq \binom{n_k-1}{k-1}+\binom{n_{k-1}-1}{k-2}+\cdots+\binom{n_s-1}{s-1}$. 
+    \end{claim}
+
+\begin{proof}
+ If not, then 
+ \begin{equation}\label{sstar}
+    \begin{aligned}
+ |\mathcal{F}_1^c|&=|\mathcal{F}|-|\mathcal{F}_1|=|\mathcal{F}|-|\mathcal{L}_1|\\
+ &>\HUGE\left(\binom{n_k}{k}+\cdots+\binom{n_s}{s} \HUGE\right)- \HUGE\left(\binom{n_k-1}{k-1}+\binom{n_{k-1}-1}{k-2}+\cdots+\binom{n_s-1}{s-1} \HUGE\right)\\
+ &= \binom{n_k-1}{k}+\cdots+\binom{n_s-1}{s}.
+ \end{aligned}  
+ \end{equation}
+
+ Now $\mathcal{F}$ is compressed. This implies $|\mathcal{F}_1^c|< |\mathcal{F}|$. By induction on $|\mathcal{F}_1^c|$ and Proposition \ref{19.7} (i), we have $|\mathcal{L}_1|\geq |\partial\mathcal{F}_1^c|\geq \binom{n_k-1}{k-1}+\cdots+\binom{n_s-1}{s-1}$ .
+\end{proof}
+Note that it is possible that $n_s=s$, then (\ref{sstar}) is not of the form in hypothesis of Kruskal-Katona Theorem. We will leave this as an exercise. 
+
+Let us continue the proof. It follows from  Proposition \ref{19.7} (ii) and Claim \ref{L1} that 
+\begin{align*}
+ |\partial\mathcal{F}|&=|\mathcal{L}_1|+|\partial\mathcal{L}_1|\\
+ &\geq  \binom{n_k-1}{k-1}+\binom{n_{k-1}-1}{k-2}+\cdots+\binom{n_s-1}{s-1}+  \binom{n_k-1}{k-2}+\binom{n_{k-1}-1}{k-3}+\cdots+\binom{n_s-1}{s-2} \\
+&= \binom{n_k-1}{k-1} +\binom{n_k-1}{k-2} +\cdots+\binom{n_s-1}{s-1}+\binom{n_s-1}{s-2}\\
+&= \binom{n_k}{k-1}+\binom{n_{k-1}}{k-2}+\cdots+\binom{n_s}{s-1}. 
+\end{align*}
+\end{proof}
+
+We will end this subsection by introducing some applications about Kruskal-Katona Theorem, which   can be used to prove Erd\H{o}s-Ko-Rado theroem. Recall that  Erd\H{o}s-Ko-Rado theroem states that for $k$-uniform intersect family $\mathcal{F}$, we obtain $|\mathcal{F}|\leq \binom{n-1}{k-1}$. The following theroem is a baby case of Kruskal-Katona Theorem. 
+\begin{theorem}\label{baby}
+ Let $\mathcal{F}$ be a $k$ set family with 
+    $|\mathcal{F}|\geq \binom{n}{k}$. Then $|\partial\mathcal{F}|\geq \binom{n}{k-1}$. 
+\end{theorem}
+\emph{Idea:} Let $\overline{\mathcal{F}}=\{[n]\backslash F: F\in \mathcal{F}\}$. Then the following statement holds.
+ \begin{center}
+     ($\star$) For any $F\in \mathcal{F}$ and $\overline{\mathcal{F}^\prime}\in \overline{\mathcal{F}}$, it is impossible that $F\in \overline{F^\prime}$.
+ \end{center}
+ If $|\mathcal{F}|=|\overline{\mathcal{F}}|$ is large, then  the shadow of $\overline{\mathcal{F}}$ is large by Kruskal-Katona Theorem. By ($\star$),  the shadow of $\overline{\mathcal{F}}$ is disjoint from $\mathcal{F}$. So $|\mathcal{F}|$ is small, a contradiction. 
+
+\begin{proof}
+    Suppose Erd\H{o}s-Ko-Rado theroem is not true. That is, $|\mathcal{F}|>\binom{n-1}{k-1}$. Then $|\overline{\mathcal{F}}|=|\mathcal{F}|>\binom{n-1}{k-1}=\binom{n-1}{n-k}$. By Theorem \ref{baby}, $|\partical\overline{\mathcal{F}}|\geq \binom{n-1}{n-k-1},\ldots, |\partical^{n-2k}\overline{\mathcal{F}}|\geq \binom{n-1}{k}$. It follows from ($\star$)  that $\partical^{n-2k}\overline{\mathcal{F}}\cap \mathcal{F}=\emptyset$. This implies $|\mathcal{F}|\leq \binom{n}{k}-\binom{n-1}{k}=\binom{n-1}{k-1}$. 
+\end{proof}
+
+
+
+\subsection{VC dimmension and Sauer-Shelah lemma}
+
+How can we measure in a sense the complexity of a set system? Intuitively, $\mathcal{F}\subseteq 2^{[n]}$ is \emph{complex} if it contains a large copy of a cube $2^{[r]}$ for large $r$. In other words, we want to look at how members of $\mathcal{F}$ intersect some subset of the ground set. 
+
+\begin{definition}
+    Given $\mathcal{F}\subseteq 2^{[n]}$ and $S\subseteq [n]$, \emph{the trace of $\mathcal{F}$ on $S$} is $\mathcal{F}\big|_S=\{F\cap S: F\in \mathcal{F}\}$. We say a set $S$ is \emph{shattered} by $\mathcal{F}$ if $\mathcal{F}\big|_S=2^S$. 
+\end{definition}
+
+\begin{definition}
+    The VC-\emph{dimension} of $\mathcal{F}\subseteq 2^X$ is the maximum size of a set $S\subseteq X$ shattered by $\mathcal{F}$. If there exists an arbitrarily large shattered set, then VC-dim$= \infty$.
+\end{definition}
+\begin{example}
+   Let $X=\mathbb R$ and $\mathcal{F}=\{$ collection of all closed intervals $[a,b]\}$. Then VC-dim of $\mathcal{F}= 2$.
+\end{example}
+
+
+
+
+
 
 
 
@@ -3045,15 +3281,28 @@ Indeed, it is at least 3 as illustrated in Figure \ref{fig:20-2}(a). It is less 
 \end{lemma}
 
 \begin{remark}
-The bound is optimal.
+The bound is optimal by considering $\mathcal{F}$ is the union of first $d+1$ layers of $2^{[n]}$.
 \end{remark}
 
 \begin{remark}
 The Sauer-Shelah lemma in fact is slightly stronger: it bounds size of traces of $\mathcal{F}$ on any set. That is, for any $\mathcal{F}\subseteq 2^{[n]}$ with VC dimension $d$ and any $S\subseteq X$ of size $m$, then we have $|\mathcal{F}|_{S}|\leq \binom{m}{0}+\binom{m}{1}+\cdots+\binom{m}{d}$. We get this version from Sauer-Shelah lemma for free as the VC dimension of $\mathcal{F}|_{S}$ is no more than that of $\mathcal{F}$.
 \end{remark}
 
+The first two proofs use induction. Natural way is to get rid of an element say '$n$'.
 
-\begin{proof}[Proof of Lemma~\ref{F}]
+\begin{proof}[First proof of Lemma~\ref{F}]
+We divide $\mathcal{F}=\mathcal{F}(n)\cup \mathcal{F}(\bar{n})$, where $\mathcal{F}(n)=\{F : n\in F, F\in \mathcal{F}\}$ and $\mathcal{F}(\bar{n})=\{F : n\notin F, F\in \mathcal{F}\}$. It can be seen as a way to split hypercube, $\mathcal{F}(n)$ is the subfamily of elements whose $n$-th coordinate is 0, and $\mathcal{F}(\bar{n})$ is the subfamily of elements whose $n$-th coordinate is 1.
+
+ \begin{exercise}
+    Using the above partition and induction, prove the following theorem.
+\end{exercise}
+\begin{theorem}\label{thm20.13}
+    For any $\mathcal{F}\subseteq 2^{[n]}$, the number of shattered sets in $\mathcal{F}$ is at least $|\mathcal{F}|$.
+\end{theorem}
+We claim that Theorem \ref{thm20.13} implies Sauer-Shelah lemma. Indeed, if the VC dimension of $\mathcal{F}$ is $d$, then any shattered set has size at most $d$, so the number of shattered sets is at most $\binom{n}{0}+\binom{n}{1}+\cdots+\binom{n}{d}$. By Theorem \ref{thm20.13}, we are done.
+\end{proof}
+
+\begin{proof}[Second proof of Lemma~\ref{F}]
     By induction on $d$ and $n$, the base case for $d$ is easy. We fix $d$ first, the base case $n=d$ is trivial. We restrict $\mathcal{F}$ to $[n-1]$, let $\mathcal{F}_{1}=\mathcal{F}|_{[n-1]}=\{ F\backslash \{ n \} :F\in \mathcal{F} \}$. Note that $\mathcal{F}_{1}$ might not be $\mathcal{F}$. Let $\mathcal{F}_{2}=\{ F\in \mathcal{F}: n\notin F, F\cup\{ n \} \in \mathcal{F} \}$. Then $|\mathcal{F}|=|\mathcal{F}_{1}|+|\mathcal{F}_{2}|$. We claim that $\VC(\mathcal{F}_{2})\leq d-1$. In fact, if $A\subseteq [n-1]$ shattered by $\mathcal{F}_{2}$, then $A\cup \{ n \}$ shattered by $\mathcal{F}$. By induction on $n$, we have
     \begin{equation*}
     \left\{
@@ -3065,6 +3314,35 @@ The Sauer-Shelah lemma in fact is slightly stronger: it bounds size of traces of
     \end{equation*}
     So we have
     $$|\mathcal{F}|=|\mathcal{F}_{1}|+|\mathcal{F}_{2}|\leq \binom{n}{0}+\binom{n}{1}+\cdots+\binom{n}{d}.$$
+\end{proof}
+
+\begin{proof}[Third proof of Lemma~\ref{F}]
+
+The idea is to shift $\mathcal{F}$ to a family $\mathcal{F'}$ that is a down set without changing cardinality and without increasing VC dimension. Because then in a down-set $\mathcal{F'}$, all sets are sharttered, that means the size of set is at most the VC dimension $d$, which implies the desired bound. Basically, we apply gravity in all directions.
+
+For every $i\in [n]$, we define \emph{free fall} in direction $i$ as follows. For any $F\in \mathcal{F}$, set
+$$S_i(F)=\left\{
+    	\begin{aligned}
+    	&F\backslash\{i\} \quad &if\ i\in F\ and\ F\backslash \{i\}\notin \mathcal{F},\\
+    	&F \quad &otherwise,\\
+    	\end{aligned}
+    	\right
+    	.
+        $$
+and $S_i(\mathcal{F})=\{S_i(F):F\in \mathcal{F}\}$.
+ \begin{exercise}
+    For any family $\mathcal{F}$, it is a finite process to 'compress' it, i.e., to obtain $\mathcal{F'}$ such that $S_i(\mathcal{F'})=\mathcal{F'}$ holds for every $i\in [n]$.
+\end{exercise}
+ \begin{exercise}
+    Such compressed family is a down-set.
+\end{exercise}
+ \begin{exercise}\label{ex20-1}
+    $|S_i(\mathcal{F})|=|\mathcal{F}|$.
+\end{exercise}
+ \begin{exercise}\label{ex20-2}
+    If $S_i(\mathcal{F})$ shatters a set $A$, then so does $\mathcal{F}$.
+\end{exercise}
+Then we are done. Actually, a stronger conclusion holds here. We have $S_i(\mathcal{F})|_T\subseteq S_i(\mathcal{F}|_T)$. Then by Exercise \ref{ex20-1}, exercise \ref{ex20-2} holds.
 \end{proof}
 
 \subsection{Dimension argument \& families with restricted intersections}
@@ -3088,7 +3366,7 @@ Fano plane: 7 points and 7 lines.
     \end{figure}
 \end{example}
 
-\begin{theorem}[De Bruijn-\Erdos{}~\cite{bruijn1951colour}]
+\begin{theorem}[de Bruijn-\Erdos{}~\cite{bruijn1951colour}]
     Let $P$ be a set of $n$ points in a projective plane, not all on a line, then the number of lines determined by $P$ is at least $n$.
 \end{theorem}
 
@@ -3102,7 +3380,7 @@ Fano plane: 7 points and 7 lines.
 \newpage
 \section{Lecture 21}
 
-\begin{theorem}[De Bruijn-\Erdos{}~\cite{bruijn1951colour}]
+\begin{theorem}[de Bruijn-\Erdos{}~\cite{bruijn1951colour}]
     Let $P$ be a set of $n$ points in a projective plane, not all on a line, then the number of lines determined by $P$ is at least $n$.
 \end{theorem}
 
@@ -3112,7 +3390,7 @@ Fano plane: 7 points and 7 lines.
 
 We prove this theorem by proving a combinatoric statement about family sets with restricted intersection.
 
-\begin{theorem}\label{De bruijn-erdos}
+\begin{theorem}\label{de bruijn-erdos}
     Let $\mathcal{F}\subseteq 2^{[n]}$. If for any $F,F' \in \mathcal{F}$ with $F\neq F'$, $|F\cap F'|=1$, then $|\mathcal{F}|\leq n$.
 \end{theorem}
 
@@ -3125,11 +3403,11 @@ This implies the dual statement of de Bruijn-\Erdos{}. We may assume each point 
     where
     $$\langle \boldsymbol{f}_{i},\boldsymbol{f}_{j} \rangle = \left\{
     	\begin{aligned}
-    	&|F_{i}| \quad &i=j\\
-    	&1 \quad &i\neq j\\
+    	&|F_{i}| \quad &i=j,\\
+    	&1 \quad &i\neq j.\\
     	\end{aligned}
     	\right
-    	..
+    	.
     $$
     Then
     $$\langle \boldsymbol{x},\boldsymbol{x} \rangle = \sum_{i=1}^{m}\alpha_{i}^{2}|F_{i}|+\sum_{i\neq j}\alpha_{i}\alpha_{j}=\sum_{i=1}^{m}\alpha_{i}^{2}(|F_{i}|-1)+(\sum_{i=1}^{m}\alpha_{i})^{2}.$$
@@ -3165,8 +3443,8 @@ In $\mathbf{R}^{n}$, we can take $P=\{ e_{i}+e_{j} \}_{i,j\in \binom{[n]}{2}}$, 
         Note that
         $$P_{i}(\boldsymbol{v}_{j})=\left\{
     	\begin{aligned}
-    	&d^{2}D^{2} \quad &i=j\\
-    	&0 \quad &i\neq j\\
+    	&d^{2}D^{2} \quad &i=j,\\
+    	&0 \quad &i\neq j.\\
     	\end{aligned}
     	\right
     	.
@@ -3197,7 +3475,7 @@ In $\mathbf{R}^{n}$, we can take $P=\{ e_{i}+e_{j} \}_{i,j\in \binom{[n]}{2}}$, 
 
 \subsection{Forbidding a single intersection size}
 
-Blabla...
+Recall that a set family $S\subseteq 2^{[n]}$ is pairwise intersecting, then $|S|\leq 2^{n-1}$. In the uniform setting, let ecah set in $S$ has size $k$, we have EKR theorem saying that $|S|\leq \binom{n-1}{k-1}$. If $k=n/2$, the bound is $\Theta(2^{n}/\sqrt{n})$. These examples show that forbidding intersection of size $0$ is not affecting too much on how many we can put into the set family. Frank-Wilson showed that a single forbidding size could force the set family to be exponentially smaller.
 
 \begin{theorem}[Frank-Wilson~\cite{frankl1981intersection}]\label{frank wilson}
     Let $p$ be an odd prime and $\mathcal{F}\subseteq 2^{[n]}$. If
@@ -3210,12 +3488,32 @@ Blabla...
     Then $|\mathcal{F}|\leq \binom{n}{0}+\binom{n}{1}+\cdots+\binom{n}{p-1}$.
 \end{theorem}
 
+For example, if we take $p=2$, this is a variation of odd/even town, there are at most $n+1$ sets in the family. This is very close to the tight bound.
+
 \begin{remark}
-    Blabla...
+    If we take $n=4p$ and consider intersection family $\mathcal{F}\subseteq\binom{[n]}{2p}$ the middle layer. Note that $\binom{[n]}{2p}=\Theta(2^{n}/\sqrt{n})$. But we only forbid intersection of size $p$, we get $|\mathcal{F}|\leq \sum_{i=1}^{p-1}\binom{n}{i}\approx \binom{n}{n/4}\approx 2^{(1-c)n}$. This is exponentially smaller than $\Theta(2^{n}/\sqrt{n})$.
 \end{remark}
 
 \begin{proof}[Proof of Theorem~\ref{frank wilson}]
-    Blabla...
+    Associate each set $F\in \mathcal{F}$ an $n$-variable degree-($p-1$) polynomial $P_{F}$ over the field $\mathbb{F}_{p}$: for $x\in \mathbb{F}_{p}$, $P_{F}(x)=1-(\sum_{i\in F}x_{i})^{p-1}$.
+    
+    \begin{claim}\label{linear independent}
+        $\{ P_{F} \}_{F\in \mathcal{F}}$ are linearly independent.
+    \end{claim}
+
+    \begin{proof}[Proof of Claim~\ref{linear independent}]
+        By hypothesis, for all $F, F' \in \mathcal{F}$, $|F\cap F'|\equiv 0\ (mod\ p)$ if and only if $F=F'$. So
+        $$P_{F}(\mathbf{1}_{F'})=1-|F\cap F'|^{p-1}=\left\{
+    	\begin{aligned}
+    	&1 \quad &\text{if }F=F',\\
+    	&0 \quad &\text{otherwise},\\
+    	\end{aligned}
+    	\right
+    	.$$
+    where the last equation follows from Fermat's little theorem.
+    \end{proof}
+    
+    The points we use to evaluate to show linear independent are $\{ 0,1 \}$-vectors. Over $\{ 0,1 \}$-vectors, any monomial $x_{1}^{2024}x_{2}^{5}x_{3}^{16}$ has the same value as $x_{1}x_{2}x_{3}$. So replace in $P_{F}$ all powers $x_{i}^{a}$ for $a\geq 2$ by $x_{i}$ we get new polynomials $P_{F'}$ which are still linear independent and of degree at most $p-1$. These new multilinear polynomials are spanned by at most $\binom{n}{0}+\binom{n}{1}+\cdots+\binom{n}{p-1}$ monomials.
 \end{proof}
 
 
